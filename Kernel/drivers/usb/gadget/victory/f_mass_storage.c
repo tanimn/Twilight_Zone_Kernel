@@ -1980,9 +1980,10 @@ static int check_command(struct fsg_dev *fsg, int cmnd_size,
 	/* Verify the length of the command itself */
 	if (cmnd_size != fsg->cmnd_size) {
 
-		/* Special case workaround: MS-Windows issues REQUEST SENSE
-		 * with cbw->Length == 12 (it should be 6). */
-		if (fsg->cmnd[0] == SC_REQUEST_SENSE && fsg->cmnd_size == 12)
+	/* According to USB Mass Storage specification for bootability,
+	 * the device should accept a cbw->Length of 12 bytes for all
+	 * commands. The remaining bytes are padded with 0 by the host. */
+		if (fsg->cmnd_size == 12)
 			cmnd_size = fsg->cmnd_size;
 		else {
 			fsg->phase_error = 1;
