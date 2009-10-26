@@ -44,8 +44,9 @@
 #include <linux/seq_file.h>
 
 #define RCU_TREE_NONCORE
+#ifndef CONFIG_TINY_RCU
 #include "rcutree.h"
-
+#endif
 static void print_one_rcu_data(struct seq_file *m, struct rcu_data *rdp)
 {
 	if (!rdp->beenonline)
