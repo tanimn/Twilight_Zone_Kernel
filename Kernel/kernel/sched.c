@@ -2949,16 +2949,16 @@ unsigned long nr_iowait(void)
 	unsigned long i, sum = 0;
 
 	for_each_possible_cpu(i)
-		sum += atomic_read(&cpu_rq(i)->nr_iowait);
+	sum += atomic_read(&cpu_rq(i)->nr_iowait);
 
 	return sum;
 }
 
-unsigned long nr_iowait_cpu(void)
-{
-	struct rq *this = this_rq();
-	return atomic_read(&this->nr_iowait);
-}
+//unsigned long nr_iowait_cpu(void)
+//{
+//	struct rq *this = this_rq();
+//	return atomic_read(&this->nr_iowait);
+//}
 
 unsigned long this_cpu_load(void)
 {
@@ -2966,6 +2966,11 @@ unsigned long this_cpu_load(void)
 	return this->cpu_load[0];
 }
 
+unsigned long nr_iowait_cpu(int cpu)  // Idle timer from 2.6.34 via nullghost
+{
+	struct rq *this = cpu_rq(cpu);
+	return atomic_read(&this->nr_iowait);
+}
 
 /* Variables and functions for calc_load */
 static atomic_long_t calc_load_tasks;
