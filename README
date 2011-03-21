@@ -1,0 +1,23 @@
+#########################################################
+##
+## README -	Twilight Zone kernel and initramfs
+##		for Samsung SPH-D700 (Sprint Epic4G)
+##		based from EC05 sources.
+##
+
+Note:
+
+	This document is currently a stub that will be
+	filled out as the package is put together.
+
+Prerequisites:
+
+	Build Platform
+	Compiler
+	Cross Compiler
+	These Sources
+	Handset
+
+How-To:
+
+	Ask me again later.
