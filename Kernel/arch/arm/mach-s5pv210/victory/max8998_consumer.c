@@ -115,10 +115,10 @@ const unsigned int (*frequency_match[2])[4] = {
 
 #if 0
 /*  voltage table */
-static const unsigned int voltage_table[16] = {
-	750, 800, 850, 900, 950, 1000, 1050,
-	1100, 1150, 1200, 1250, 1300, 1350,
-	1400, 1450, 1500
+static const unsigned int voltage_table[28] = {
+	750, 800, 850, 900, 925, 950, 975, 1000, 1025, 1050,
+	1075, 1100, 1125, 1150, 1175, 1200, 1225, 1250, 1275,
+	1300, 1325, 1350, 1375, 1400, 1425, 1450, 1475, 1500
 };
 #endif
 
