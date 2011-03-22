@@ -23,6 +23,9 @@ loglevel 3
 # Backward compatibility
     symlink /system/etc /etc
 
+# Stroke my ego
+        setprop ro.build.display.id "Twilight Zone v1.0.4a1 - Hisako"
+
 # create mountpoints
     mkdir /mnt 0775 root system
     mkdir /mnt/sdcard 0000 system system
@@ -127,16 +130,16 @@ loglevel 3
     chown system system /dev/cpuctl/bg_non_interactive/tasks
     chmod 0777 /dev/cpuctl/bg_non_interactive/tasks
     write /dev/cpuctl/bg_non_interactive/cpu.shares 52
+
 # mount mtd partitions
     # Mount /system rw first to give the filesystem a chance to save a checkpoint
-    #mount yaffs2 mtd@system /system
-    mount rfs /dev/block/stl9 /system ro check=no
-#    mount yaffs2 mtd@system /system ro remount
+	mount ext4 /dev/block/stl9 /system noatime nodiratime check=n errors=continue nobh data=writeback barrier=0 discard noauto_da_alloc
+	mount rfs /dev/block/stl9 /system ro check=no
 
     # We chown/chmod /data again so because mount is run as root + defaults
-##    mount yaffs2 mtd@userdata /data nosuid nodev
 
-     mount rfs /dev/block/stl10 /data nosuid nodev check=no
+	mount ext4 /dev/block/stl10 /data nosuid nodev noatime nodiratime check=n errors=continue nobh discard data=writeback barrier=0 noauto_da_alloc
+	mount rfs /dev/block/stl10 /data nosuid nodev check=no
 
 # [Yongha for Victory WiMAX 20100208
     insmod /lib/modules/wimax_gpio.ko
@@ -147,15 +150,6 @@ loglevel 3
     chmod 0771 /data
 
 # create dbdata partition  mount rfs /dev/block/stl7 /dbdata
-
-#mkdir /dbdata
-#mount rfs /dev/block/stl10 /dbdata
-
-#mkdir /dbdata/databases
-#chown system system /dbdata
-#chown system system /dbdata/databases
-#chmod 0771 /dbdata
-#chmod 0777 /dbdata/databases   
 
     # Collect apanic data, free resources and re-arm trigger
     copy /proc/apanic_console /data/dontpanic/apanic_console
@@ -170,38 +164,38 @@ loglevel 3
 ###################################################################  
 
     # Same reason as /data above
-    #mount yaffs2 mtd@cache /cache nosuid nodev
-    mount rfs /dev/block/stl11 /cache nosuid nodev check=no
-    chown system cache /cache
-    chmod 0770 /cache
+	mount ext4 /dev/block/stl11 /cache nosuid nodev noatime nodiratime check=n errors=continue nobh discard data=writeback barrier=0 noauto_da_alloc
+	mount rfs /dev/block/stl11 /cache nosuid nodev check=no
+	chown system cache /cache
+	chmod 0770 /cache
 
     # This may have been created by the recovery system with odd permissions
+
     chown system cache /cache/recovery
     chmod 0770 /cache/recovery
     
     mount rfs /dev/block/stl3 /efs nosuid nodev check=no
-	#removed by khoonk for parameter reading on 20100321
-    #mount j4fs /dev/block/stl6 /mnt/.lfs
-	#removed by khoonk for parameter reading on 20100321
 
-    #chown system system /efs
     chown radio radio /efs
     chmod 0771 /efs
 
     #change permissions on vmallocinfo so we can grab it from bugreports
+
     chown root log /proc/vmallocinfo
     chmod 0440 /proc/vmallocinfo
 
 # create data/gps for GPS demon
+
 	mkdir /data/gps
 	chown system /data/gps
 	chmod 771 /data/gps
+
 # GPS development for broadcom.    
-    #chmod 0777 /system/bin/gpsd/glgps_samsungJupiter
-    #chmod 0666 /system/lib/libgps.so
+
     chmod 600 /system/etc/secgps.conf
     
 # create basic filesystem structure
+
     mkdir /data/misc 01771 system misc
     chown system misc /data/misc
     chmod 01771 /data/misc
@@ -220,6 +214,7 @@ loglevel 3
 
 
 # to enable wifi
+
     mkdir /data/wifi 0777 wifi wifi
     chown wifi wifi /data/wifi
     chmod 0777 /data/wifi
@@ -243,6 +238,7 @@ loglevel 3
     mkdir /data/property 0700 root root
 
     # create log system 
+
     mkdir /data/log  0777 root root 
     chmod 0777 /data/log
 	chmod 0777 /data/anr	
@@ -253,28 +249,34 @@ loglevel 3
     chmod 0662 /dev/log/system   
 	
    	# create dump camera
+
     mkdir /data/dump  0777 root root 
     chmod 0777 /data/dump
 
     # create dalvik-cache and double-check the perms
+
     mkdir /data/dalvik-cache 0771 system system
     chown system system /data/dalvik-cache
     chmod 0771 /data/dalvik-cache
 
     # create the lost+found directories, so as to enforce our permissions
+
     mkdir /data/lost+found 0770
     mkdir /cache/lost+found 0770
 
     # double check the perms, in case lost+found already exists, and set owner
+
     chown root root /data/lost+found
     chmod 0770 /data/lost+found
     chown root root /cache/lost+found
     chmod 0770 /cache/lost+found
   
     # permissions for MTP device node
+
     chmod 0660 /dev/usb_mtp_gadget
 
     #DRM directory creation
+
     mkdir /system/etc/security/drm 0777
     chown root root /system/etc/security/drm
     chmod 0777 /system/etc/security/drm
@@ -287,42 +289,57 @@ loglevel 3
 	#mkdir /efs/.android 0777
     
     # Permission for WMDRM sample.hds file
+
     chmod 0777  /data/data/.drm/.wmdrm/sample.hds
 
     # video play for m.youtube.com
+
     mkdir /data/data/.youtube 0777
 
     #added for path change for generated certificates and hds file for playready DRM
+
     mkdir /data/data/.drm/.playready 0777
 
     # ko files for 3D
+
     insmod /modules/pvrsrvkm.ko
     insmod /modules/s3c_lcd.ko
     insmod /modules/s3c_bc.ko
     #insmod /modules/bc_example.ko
 
     # load FM Radio module
+
     #insmod /lib/modules/Si4709_driver.ko
     insmod /lib/modules/vibrator.ko
     insmod /lib/modules/melfas_touchkey.ko
 
+# Load TCPMSS clamping
+# Compiled into kernel
+#    insmod /lib/modules/xt_TCPMSS.ko
+
 #all operation with rootfs should be finished here, root partition will mounted read-only . d.moskvitin
+
     mount rootfs rootfs / ro remount
 
 on boot
+
 # basic network init
+
     ifup lo
     hostname localhost
     domainname localdomain
 
 # set RLIMIT_NICE to allow priorities from 19 to -20
+
     setrlimit 13 40 40
 
 # Set timeout value for rmnet stats.
+
     write /sys/devices/virtual/net/rmnet0/timeout_suspend 5000000
 
 # Define the oom_adj values for the classes of processes that can be
 # killed by the kernel.  These are used in ActivityManagerService.
+
     setprop ro.FOREGROUND_APP_ADJ 0
     setprop ro.VISIBLE_APP_ADJ 1
     setprop ro.SECONDARY_SERVER_ADJ 2
@@ -334,6 +351,7 @@ on boot
 
 # Define the memory thresholds at which the above process classes will
 # be killed.  These numbers are in pages (4k).
+
     setprop ro.FOREGROUND_APP_MEM 2560
     setprop ro.VISIBLE_APP_MEM 4096
     setprop ro.SECONDARY_SERVER_MEM 6144
@@ -346,13 +364,14 @@ on boot
 # Write value must be consistent with the above properties.
 # Note that the driver only supports 6 slots, so we have HOME_APP at the
 # same memory level as services.
-    write /sys/module/lowmemorykiller/parameters/adj 0,1,2,7,14,15
 
+    write /sys/module/lowmemorykiller/parameters/adj 0,1,2,7,14,15
     write /proc/sys/vm/overcommit_memory 1
     write /proc/sys/vm/min_free_order_shift 4
     write /sys/module/lowmemorykiller/parameters/minfree 2560,4096,6144,10240,11264,12288
 
     # Set init its forked children's oom_adj.
+
     write /proc/1/oom_adj -16
 
     # Tweak background writeout
@@ -364,6 +383,7 @@ on boot
     chmod 666 /system/usr/keychars/s3c-keypad.kcm.bin 
 
     # Permissions for System Server and daemons.
+
     chown radio system /sys/android_power/state
     chown radio system /sys/android_power/request_state
     chown radio system /sys/android_power/acquire_full_wake_lock
@@ -413,6 +433,7 @@ on boot
     chmod 0777 /sys/devices/platform/s3c-keypad/key_pressed
 
 # FOTA
+
     chmod 0777 /system/etc/install-recovery.sh
 
 # for Sensor HAL
@@ -458,14 +479,19 @@ on boot
     setprop	audioflinger.btincall 0
 
 
+# Network Tweaks - Thanks k0nane.
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.wifi    4095,65535,196608,4096,16384,110208
-    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
+#    setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.default 4096,87380,16777216,4096,65536,16777216
+#    setprop net.tcp.buffersize.wifi    4095,65535,196608,4096,16384,110208
+    setprop net.tcp.buffersize.wifi    4096,87380,16777216,4096,65535,16777216
+#    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.umts    4096,87380,16777216,4096,65536,16777216
     setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
     setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
-    setprop net.tcp.buffersize.wimax   4092,87380,1520768,4092,16384,1520768
+#    setprop net.tcp.buffersize.wimax   4092,87380,1520768,4092,16384,1520768
+    setprop net.tcp.buffersize.wimax   4096,87380,16777216,4096,65536,16777216
 
 # +++++++++++++++++++++++++++++++++++++++++++
 
@@ -510,6 +536,12 @@ service console /system/bin/sh
 service playlogos1 /system/bin/playlogos1
     user root
     oneshot
+
+# Custom Script Configuration
+
+service twilightzone /sbin/twilightzone.sh
+	user root
+	oneshot
 
 # adbd is controlled by the persist.service.adb.enable system property
 service adbd /sbin/adbd
@@ -616,11 +648,11 @@ service killmediaserver /system/bin/killmediaserver
     oneshot
 #to prevent lockup issue during poweron/off test
 
-#service bootanim /system/bin/bootanimation
-#    user graphics
-#    group graphics
-#    disabled
-#    oneshot
+service bootanim /system/bin/bootanimation
+    user graphics
+    group graphics
+    disabled
+    oneshot
 	
 # to enable wifi
 service wpa_supplicant /system/bin/wpa_supplicant -Dwext -ieth0 -c/data/wifi/bcm_supp.conf
@@ -836,7 +868,7 @@ service iqmsd /system/bin/iqmsd
     disabled
 
 on property:service.iq.active=1
-    start iqmsd
+	start iqmsd
 
 on property:service.iq.active=0
     stop iqmsd

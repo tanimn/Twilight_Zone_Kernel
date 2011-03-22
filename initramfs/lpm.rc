@@ -16,7 +16,9 @@ on init
 	insmod /lib/modules/param.ko 
 	insmod /lib/modules/vibrator.ko
  
+	mount ext4 /dev/block/stl9 /system check=no errors=continue
   	mount rfs /dev/block/stl9 /system check=no
+#	mount ext4 /dev/block/mmcblk0p2 /data nosuid nodev check=no errors=continue
 	mount rfs /dev/block/mmcblk0p2 /data nosuid nodev check=no
 
 	mkdir /data/log 0777

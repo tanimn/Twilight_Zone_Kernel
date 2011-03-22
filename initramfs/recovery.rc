@@ -38,6 +38,8 @@ on init
 
 
     #Thomas Ryu, Cache 
+#	mount ext4 /dev/block/stl11 /cache nosuid nodev check=no noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+	mount ext4 /dev/block/stl11 /cache nosuid nodev check=no noatime nodiratime errors=continue nobh noauto_da_alloc
     mount rfs /dev/block/stl11 /cache nosuid nodev check=no
     chown system cache /cache
     chmod 0770 /cache
@@ -55,12 +57,16 @@ on init
     #chown system system /data
     #chmod 0771 /data
 
+#	mount ext4 /dev/block/stl10 /data nosuid nodev check=no noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+	mount ext4 /dev/block/stl10 /data nosuid nodev check=no noatime nodiratime errors=continue nobh noauto_da_alloc
     mount rfs /dev/block/stl10 /data nosuid nodev check=no
     chown system system /data
     chmod 0771 /data
 
+#	mount ext4 /dev/block/stl9 /system noatime nodiratime check=no errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+	mount ext4 /dev/block/stl9 /system noatime nodiratime check=no errors=continue nobh noauto_da_alloc
   	mount rfs /dev/block/stl9 /system check=no
-
+	
     #mkdir /dbdata
 	#mount rfs /dev/block/stl10 /dbdata
     #chown system system /dbdata

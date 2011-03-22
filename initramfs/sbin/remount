@@ -1,0 +1,6 @@
+#/system/bin/sh
+#
+# VERY basic script for now no error checking
+# remount script
+
+busybox mount -o remount,rw $1
