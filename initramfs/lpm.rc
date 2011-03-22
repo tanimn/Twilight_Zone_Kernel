@@ -5,6 +5,7 @@ on init
 	export ANDROID_ROOT /system
 
 	mkdir /system
+	mkdir /data
 	mount tmpfs nodev /tmp
 
 	insmod /lib/modules/fsr.ko
@@ -16,6 +17,14 @@ on init
 	insmod /lib/modules/vibrator.ko
  
   	mount rfs /dev/block/stl9 /system check=no
+	mount rfs /dev/block/mmcblk0p2 /data nosuid nodev check=no
+
+	mkdir /data/log 0777
+	mkdir /data/anr 0777
+
+	chmod 0666 /dev/log/radio
+	chmod 0666 /dev/log/main
+	chmod 0666 /dev/log/event    
 
 on boot
 #	write /sys/class/sec/switch/usb_sel PDA
@@ -26,6 +35,7 @@ on boot
 
 	class_start default
 
+service debuggerd /system/bin/debuggerd
 
 #service console /bin/sh
 service console /system/bin/sh
@@ -33,11 +43,9 @@ service console /system/bin/sh
 
 service playlpm /system/bin/playlpm
     	user root
-	oneshot  
 
 service immvibed /system/bin/immvibed 
 	oneshot
 
 service lpmkey /system/bin/charging_mode
     	user root
-    	oneshot
