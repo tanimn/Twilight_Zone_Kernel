@@ -42,14 +42,19 @@ extern unsigned int s5pc11x_cpufreq_index;
 #if 0
 /*APLL_FOUT, MPLL_FOUT, ARMCLK, HCLK_DSYS*/
 static const u32 s5p_sysout_clk_tab_1GHZ[][4] = {
+
 	// APLL:1300,ARMCLK:1300,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{1300* MHZ, 667 *MHZ, 1300 *MHZ, 166 *MHZ},
 	// APLL:1200,ARMCLK:1200,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{1200* MHZ, 667 *MHZ, 1200 *MHZ, 166 *MHZ},
 	// APLL:1000,ARMCLK:1000,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{1000* MHZ, 667 *MHZ, 1000 *MHZ, 166 *MHZ},
+	// APLL:800,ARMCLK:800,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	{800* MHZ, 667 *MHZ, 800 *MHZ, 166 *MHZ},
 	// APLL:800,ARMCLK:600,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{800* MHZ, 667 *MHZ, 600 *MHZ, 166 *MHZ},
+	// APLL:800,ARMCLK:400,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	{800* MHZ, 667 *MHZ, 400 *MHZ, 166 *MHZ},
 	// APLL:800,ARMCLK:200,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{800* MHZ, 667 *MHZ, 200 *MHZ, 166 *MHZ},
 	// APLL:800,ARMCLK:100,HCLK_MSYS:100,MPLL:667,HCLK_DSYS:83,HCLK_PSYS:66,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
@@ -65,7 +70,9 @@ static const u32 s5p_sys_clk_div0_tab_1GHZ[][DIV_TAB_MAX_FIELD] = {
         {0, 6, 6, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 1.3ghz
         {0, 5, 5, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 1.2ghz
         {0, 4, 4, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 1.0ghz
+        {0, 3, 3, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 800mhz
         {1, 3, 2, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 600mhz
+        {1, 3, 1, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 400mhz
         {3, 3, 0, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 200mhz
         {7, 3, 0, 0, 7, 0, 9, 0, 3, 3, 1, 4}, // 100mhz
 };
@@ -75,8 +82,10 @@ static const u32 s5p_sys_clk_div0_tab_1GHZ[][DIV_TAB_MAX_FIELD] = {
 static const u32 s5p_sys_clk_mps_tab_1GHZ[][6] = {
         {325, 6, 1, 667, 12, 1}, // 1.3ghz
         {300, 6, 1, 667, 12, 1}, // 1.2ghz
-        {250, 6, 1, 667, 12, 1}, // 1ghz
+        {250, 6, 1, 667, 12, 1}, // 1.0ghz
+        {100, 3, 1, 667, 12, 1}, // 800mhz
         {100, 3, 1, 667, 12, 1}, // 600mhz
+        {100, 3, 1, 667, 12, 1}, // 400mhz
         {100, 3, 1, 667, 12, 1}, // 200mhz
         {100, 3, 1, 667, 12, 1}, // 100mhz
 };
@@ -163,11 +172,35 @@ struct S5PC110_clk_info clk_info[] = {
 	.dmc0_div6 	=	(3<<28),
 },
 {
+	// APLL:800,ARMCLK:800,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	.armclk		=	800* MHZ,
+	.apllout	=	800* MHZ,
+	.apll_mps	=	((100<<16)|(3<<8)|1),
+	.msys_div0	=	(0|(3<<4)|(3<<8)|(1<<12)),
+	.mpllout	=	667* MHZ,
+	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 =	((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 	=	(3<<28),
+},
+{
 	// APLL:800,ARMCLK:600,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	.armclk		=	600* MHZ,
 	.apllout	=	800* MHZ,
 	.apll_mps	=	((100<<16)|(3<<8)|1),
 	.msys_div0	=	(1|(3<<4)|(2<<8)|(1<<12)),
+	.mpllout	=	667* MHZ,
+	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 =	((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 	=	(3<<28),
+},
+{
+	// APLL:800,ARMCLK:400,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	.armclk		=	400* MHZ,
+	.apllout	=	800* MHZ,
+	.apll_mps	=	((100<<16)|(3<<8)|1),
+	.msys_div0	=	(1|(3<<4)|(1<<8)|(1<<12)),
 	.mpllout	=	667* MHZ,
 	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
 	.psys_dsys_div0 =	((3<<16)|(1<<20)|(4<<24)|(1<<28)),
