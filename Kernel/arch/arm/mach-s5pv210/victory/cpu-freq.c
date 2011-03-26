@@ -92,7 +92,7 @@ static struct cpufreq_frequency_table s5pc110_freq_table_1GHZ[] = {
 /*Assigning different index for fast scaling up*/
 static unsigned char transition_state_1GHZ[][2] = {
         {1, 0},
-        {1, 1},
+        {2, 1},
         {2, 0},
         {3, 1},
         {4, 2},
