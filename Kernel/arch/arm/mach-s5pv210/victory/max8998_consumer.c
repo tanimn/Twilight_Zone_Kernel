@@ -87,10 +87,11 @@ enum PMIC_VOLTAGE {
 static const unsigned int frequency_match_1GHZ[][4] = {
 /* frequency, Mathced VDD ARM voltage , Matched VDD INT*/
 #if 1
-        {1000000, 1275, 1100, 0},
-        {800000, 1200, 1100, 1},
-        {400000, 1050, 1100, 2},
-        {200000, 950, 1100, 4},
+        {1300000, 1300, 1100, 0},
+        {1200000, 1300, 1100, 0},
+        {100000, 1225, 1100, 1},
+        {600000, 1100, 1100, 2},
+        {200000, 950, 1000, 4},
         {100000, 950, 1000, 5},
 #else //just for dvs test
         {1000000, 1250, 1100, 0},
@@ -142,13 +143,12 @@ static const unsigned int dvs_volt_table_800MHZ[][3] = {
 };
 
 static const unsigned int dvs_volt_table_1GHZ[][3] = {
-        {L0, DVSARM1, DVSINT1},//DVSINT0
-        {L1, DVSARM2, DVSINT1},
-        {L2, DVSARM3, DVSINT1},
- //266       {L3, DVSARM3, DVSINT1},
-        {L3, DVSARM4, DVSINT1},
-        {L4, DVSARM4, DVSINT2},
-//        {L5, DVSARM4, DVSINT2},
+        {L0, DVSARM1, DVSINT1}, // 1.3ghz
+        {L1, DVSARM1, DVSINT1}, // 1.2ghz
+        {L2, DVSARM2, DVSINT1}, // 1.0ghz
+        {L3, DVSARM3, DVSINT1}, // 600mhz
+        {L4, DVSARM4, DVSINT2}, // 200mhz
+        {L5, DVSARM4, DVSINT2}, // 100mhz
 //        {L6, DVSARM4, DVSINT2},
 };
 
@@ -159,9 +159,9 @@ const unsigned int (*dvs_volt_table[2])[3] = {
 };
 
 static const unsigned int dvs_arm_voltage_set[][2] = {
-	{DVSARM1, 1275},
-	{DVSARM2, 1200},
-	{DVSARM3, 1050},
+	{DVSARM1, 1300},
+	{DVSARM2, 1225},
+	{DVSARM3, 1100},
 	{DVSARM4, 950},
 	{DVSINT1, 1100},
 	{DVSINT2, 1000},
@@ -325,6 +325,8 @@ int set_gpio_dvs(enum perf_level p_lv)
             gpio_set_value(S5PV210_GPB(7),0);
             break;
         case L4:
+        case L5:
+        case L6:
             //writel(((readl(S5PV210_GPH0DAT) & ~PMIC_SET_MASK) | PMIC_SET1_BIT | PMIC_SET2_BIT | PMIC_SET3_BIT), S5PV210_GPH0DAT);
              //BUCK_1_EN_A enabled
             gpio_set_value(S5PV210_GPB(6),1);
