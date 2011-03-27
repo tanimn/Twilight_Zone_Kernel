@@ -24,7 +24,7 @@ loglevel 3
     symlink /system/etc /etc
 
 # Stroke my ego
-        setprop ro.build.display.id "Twilight Zone v1.1.0 RC1 - Hajime-kun"
+        setprop ro.build.display.id "Twilight Zone v1.1.0 - Hajime-kun"
 
 # create mountpoints
     mkdir /mnt 0775 root system
