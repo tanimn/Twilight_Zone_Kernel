@@ -30,7 +30,7 @@
  */
 
 #define DEF_FREQUENCY_UP_THRESHOLD		(80)
-#define DEF_FREQUENCY_DOWN_THRESHOLD		(20)
+#define DEF_FREQUENCY_DOWN_THRESHOLD		(30)
 
 #ifdef CONFIG_CPU_S5PV210
 #define DEF_SAMPLING_FREQ_STEP  20
@@ -50,7 +50,7 @@ extern unsigned int s5pc11x_target_frq(unsigned int pred_freq, int flag);
  * this governor will not work.
  * All times here are in uS.
  */
-#define MIN_SAMPLING_RATE_RATIO			(2)
+#define MIN_SAMPLING_RATE_RATIO			(1)
 
 static unsigned int min_sampling_rate;
 
@@ -103,7 +103,7 @@ static struct dbs_tuners {
 	.down_threshold = DEF_FREQUENCY_DOWN_THRESHOLD,
 	.sampling_down_factor = DEF_SAMPLING_DOWN_FACTOR,
 	.ignore_nice = 0,
-	.freq_step = 5,
+	.freq_step = 15,
 };
 
 static inline cputime64_t get_cpu_idle_time_jiffy(unsigned int cpu,
