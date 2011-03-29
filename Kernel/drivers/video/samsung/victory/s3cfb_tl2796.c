@@ -119,9 +119,37 @@ static const unsigned short *p22Gamma_set[] = {
 	s6e63m0_22gamma_290cd,                        
 	s6e63m0_22gamma_300cd,//24                    
 };                                             
-                                               
-                                                
+#endif                                                
+
 static const unsigned short *p19Gamma_set[] = {        
+
+#ifdef CONFIG_VOODOO_COLOR_GAMMA_22_ONLY
+       s6e63m0_22gamma_30cd,//0
+       s6e63m0_22gamma_40cd,
+       s6e63m0_22gamma_70cd,
+       s6e63m0_22gamma_90cd,
+       s6e63m0_22gamma_100cd,
+       s6e63m0_22gamma_110cd,  //5
+       s6e63m0_22gamma_120cd,
+       s6e63m0_22gamma_130cd,
+       s6e63m0_22gamma_140cd,
+       s6e63m0_22gamma_150cd,
+       s6e63m0_22gamma_160cd,   //10
+       s6e63m0_22gamma_170cd,
+       s6e63m0_22gamma_180cd,
+       s6e63m0_22gamma_190cd,
+       s6e63m0_22gamma_200cd,
+       s6e63m0_22gamma_210cd,  //15
+       s6e63m0_22gamma_220cd,
+       s6e63m0_22gamma_230cd,
+       s6e63m0_22gamma_240cd,
+       s6e63m0_22gamma_250cd,
+       s6e63m0_22gamma_260cd,  //20
+       s6e63m0_22gamma_270cd,
+       s6e63m0_22gamma_280cd,
+       s6e63m0_22gamma_290cd,
+       s6e63m0_22gamma_300cd,//24
+#else
 	s6e63m0_19gamma_30cd,	//0
 	//s6e63m0_19gamma_50cd,                         
 	s6e63m0_19gamma_40cd,     
@@ -149,66 +177,9 @@ static const unsigned short *p19Gamma_set[] = {
 	s6e63m0_19gamma_280cd,
 	s6e63m0_19gamma_290cd,
 	s6e63m0_19gamma_300cd,	//24
-}; 
-#else // Modify NTTS1
-static const unsigned short *p22Gamma_set[] = {        
-	s6e63m0_22gamma_30cd,	 //0                    
-	s6e63m0_22gamma_40cd,  
-	s6e63m0_22gamma_50cd,
-	s6e63m0_22gamma_60cd,
-	s6e63m0_22gamma_70cd,	
-	s6e63m0_22gamma_80cd,	//5
-	s6e63m0_22gamma_90cd,
-	s6e63m0_22gamma_100cd,
-	s6e63m0_22gamma_110cd,	
-	s6e63m0_22gamma_120cd,	
-	s6e63m0_22gamma_130cd,	//10
-	s6e63m0_22gamma_140cd,
-	s6e63m0_22gamma_150cd,
-	s6e63m0_22gamma_160cd,	
-	s6e63m0_22gamma_170cd,	
-	s6e63m0_22gamma_180cd,	//15
-	s6e63m0_22gamma_190cd,
-	s6e63m0_22gamma_200cd,
-	s6e63m0_22gamma_210cd,	
-	s6e63m0_22gamma_220cd,	
-	s6e63m0_22gamma_230cd,	//20
-	s6e63m0_22gamma_240cd,
-	s6e63m0_22gamma_260cd,
-	s6e63m0_22gamma_280cd,
-	s6e63m0_22gamma_300cd, 	//24                   
-};                                             
-                                               
-                                                
-static const unsigned short *p19Gamma_set[] = {     
-	s6e63m0_19gamma_30cd,	//0                     
-	s6e63m0_19gamma_40cd,  
-	s6e63m0_19gamma_50cd,
-	s6e63m0_19gamma_60cd,
-	s6e63m0_19gamma_70cd,	
-	s6e63m0_19gamma_80cd,	//5
-	s6e63m0_19gamma_90cd,
-	s6e63m0_19gamma_100cd,
-	s6e63m0_19gamma_110cd,	
-	s6e63m0_19gamma_120cd,	
-	s6e63m0_19gamma_130cd,	//10
-	s6e63m0_19gamma_140cd,
-	s6e63m0_19gamma_150cd,
-	s6e63m0_19gamma_160cd,	
-	s6e63m0_19gamma_170cd,	
-	s6e63m0_19gamma_180cd,	//15
-	s6e63m0_19gamma_190cd,
-	s6e63m0_19gamma_200cd,
-	s6e63m0_19gamma_210cd,	
-	s6e63m0_19gamma_220cd,	
-	s6e63m0_19gamma_230cd,	//20
-	s6e63m0_19gamma_240cd,
-	s6e63m0_19gamma_260cd,
-	s6e63m0_19gamma_280cd,
-	s6e63m0_19gamma_300cd, 	//24
-}; 
 #endif
-
+}; 
+                                               
 #ifdef CONFIG_FB_S3C_TL2796_ACL
 static const unsigned short *ACL_cutoff_set[] = {
 	acl_cutoff_off, //0
@@ -238,7 +209,7 @@ static struct s3cfb_lcd s6e63m0 = {
 	.p_width = 52,
 	.p_height = 86,
 	.bpp = 24,
-	.freq = 72,
+	.freq = 74,
 	
 	.timing = {
 		.h_fp = 16,
