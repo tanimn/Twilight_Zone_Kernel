@@ -37,7 +37,7 @@
 
 #define ENABLE_DVFS_LOCK_HIGH 1
 #define USE_DVS
-#define GPIO_BASED_DVS
+// #define GPIO_BASED_DVS
 
 #define DBG(fmt...)
 //#define DBG(fmt...) printk(fmt)
@@ -99,7 +99,7 @@ static unsigned char transition_state_1GHZ[][2] = {
         {4, 1}, // ->800mhz
         {5, 2}, // ->600mhz
         {6, 3}, // ->400mhz
-        {7, 4}, // ->200mhz
+        {7, 3}, // ->200mhz
 };
 
 /* frequency */
