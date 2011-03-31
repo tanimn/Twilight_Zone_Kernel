@@ -90,11 +90,11 @@ static const unsigned int frequency_match_1GHZ[][4] = {
 /* frequency, Mathced VDD ARM voltage , Matched VDD INT*/
 #if 1
         {1300000, 1325, 1125, 0},
-        {1200000, 1325, 1125, 0},
-        {1000000, 1200, 1125, 1},
+        {1200000, 1300, 1125, 0},
+        {1000000, 1275, 1125, 1},
         {800000, 1200, 1125, 2},
         {600000, 1100, 1125, 2},
-        {400000, 1100, 1125, 2},
+        {400000, 1050, 1125, 2},
         {200000, 950, 1000, 4},
         {100000, 950, 1000, 5},
 #else //just for dvs test
@@ -167,7 +167,7 @@ const unsigned int (*dvs_volt_table[2])[3] = {
 
 static const unsigned int dvs_arm_voltage_set[][2] = {
 	{DVSARM1, 1325},
-	{DVSARM2, 1200},
+	{DVSARM2, 1275},
 	{DVSARM3, 1100},
 	{DVSARM4, 950},
 	{DVSINT1, 1125},
@@ -192,7 +192,7 @@ static int set_max8998(unsigned int pwr, enum perf_level p_lv)
 
 		pmic_val = voltage * 1000;
 
-		DBG("regulator_set_voltage =%dmA @ %dMHz-%d UV=%d\n",voltage,frequency_match_tab[p_lv][pwr]/1000,p_lv,exp_UV_mV[p_lv]);
+		DBG("regulator_set_voltage =%dmV @ %dMHz-%d UV=%d\n",voltage,frequency_match_tab[p_lv][pwr]/1000,p_lv,exp_UV_mV[p_lv]);
 		/*set Arm voltage*/
 		ret = regulator_set_voltage(Reg_Arm,pmic_val,pmic_val);
 	        if(ret != 0)
