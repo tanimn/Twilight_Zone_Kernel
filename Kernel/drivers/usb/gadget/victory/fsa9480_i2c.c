@@ -40,7 +40,6 @@ static int g_dock;
 #define HOME_DOCK_INSERTED 1
 #define CAR_DOCK_INSERTED 2
 
-int oldusbstatus=0;
 
 int mtp_mode_on = 0;
 int usb_on = 1;
@@ -1212,7 +1211,6 @@ static ssize_t tethering_switch_store(struct device *dev, struct device_attribut
 		printk("tethering Off\n");
 
 		g_tethering = 0;
-		usb_switch_select(oldusbstatus);
 		if(usbstatus)
 			UsbIndicator(1);
 	}
