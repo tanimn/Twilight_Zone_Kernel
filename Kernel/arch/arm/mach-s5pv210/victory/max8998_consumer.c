@@ -91,11 +91,11 @@ static const unsigned int frequency_match_1GHZ[][4] = {
 #if 1
         {1300000, 1325, 1125, 0},
         {1200000, 1300, 1125, 0},
-        {1000000, 1275, 1125, 1},
-        {800000, 1200, 1125, 2},
-        {600000, 1100, 1125, 2},
-        {400000, 1050, 1125, 2},
-        {200000, 950, 1000, 4},
+        {1000000, 1275, 1100, 1},
+        {800000, 1200, 1100, 2},
+        {600000, 1100, 1100, 2},
+        {400000, 1050, 1100, 2},
+        {200000, 950, 1100, 4},
         {100000, 950, 1000, 5},
 #else //just for dvs test
         {1000000, 1250, 1100, 0},
@@ -644,7 +644,10 @@ static int s3c_consumer_resume(struct platform_device *dev)
 
 	max8998_ldo_enable_direct(MAX8998_DCDC1);
 	max8998_ldo_enable_direct(MAX8998_DCDC2);
-	//max8998_ldo_enable_direct(MAX8998_DCDC3);
+
+	/* RAM Voltage adjustment via richardtrip and koxudaxi */
+	max8998_ldo_set_voltage_direct(MAX8998_DCDC3, 1600000, 1600000);
+	max8998_ldo_enable_direct(MAX8998_DCDC3);
 	//max8998_ldo_enable_direct(MAX8998_DCDC4);
 
 	// done in BL code.
