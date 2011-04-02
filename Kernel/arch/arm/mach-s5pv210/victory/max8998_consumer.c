@@ -460,6 +460,14 @@ EXPORT_SYMBOL(set_voltage_dvs);
 
 void max8998_init(void)
 {
+	/* RAM Voltage adjustment via richardtrip and koxudaxi */
+	max8998_ldo_set_voltage_direct(MAX8998_DCDC3, 1600000, 1600000);
+	max8998_ldo_enable_direct(MAX8998_DCDC3);
+
+	/* SAMOLED Voltage adjustment via richardtrip and koxudaxi */
+	max8998_ldo_set_voltage_direct(MAX8998_LDO17, 2700000, 2700000);
+	max8998_ldo_enable_direct(MAX8998_LDO17);
+
 	if(S5PC11X_FREQ_TAB) // for 1.2GHZ table
 	{
 		step_curr = L0;
@@ -644,10 +652,7 @@ static int s3c_consumer_resume(struct platform_device *dev)
 
 	max8998_ldo_enable_direct(MAX8998_DCDC1);
 	max8998_ldo_enable_direct(MAX8998_DCDC2);
-
-	/* RAM Voltage adjustment via richardtrip and koxudaxi */
-	max8998_ldo_set_voltage_direct(MAX8998_DCDC3, 1600000, 1600000);
-	max8998_ldo_enable_direct(MAX8998_DCDC3);
+	//max8998_ldo_enable_direct(MAX8998_DCDC3);
 	//max8998_ldo_enable_direct(MAX8998_DCDC4);
 
 	// done in BL code.
