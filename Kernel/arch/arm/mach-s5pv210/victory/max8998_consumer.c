@@ -461,7 +461,7 @@ EXPORT_SYMBOL(set_voltage_dvs);
 void max8998_init(void)
 {
 	/* RAM Voltage adjustment via richardtrip and koxudaxi */
-	max8998_ldo_set_voltage_direct(MAX8998_DCDC3, 1600000, 1600000);
+	max8998_ldo_set_voltage_direct(MAX8998_DCDC3, 1650000, 1650000);
 	max8998_ldo_enable_direct(MAX8998_DCDC3);
 
 	/* SAMOLED Voltage adjustment via richardtrip and koxudaxi */
