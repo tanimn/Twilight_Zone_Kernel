@@ -99,7 +99,8 @@ static unsigned char transition_state_1GHZ[][2] = {
         {4, 1}, // ->800mhz
         {5, 2}, // ->600mhz
         {6, 3}, // ->400mhz
-        {7, 3}, // ->200mhz
+        {7, 4}, // ->200mhz
+        {8, 5}, // ->100mhz
 };
 
 /* frequency */
