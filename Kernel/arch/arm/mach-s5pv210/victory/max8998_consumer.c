@@ -155,7 +155,7 @@ static const unsigned int dvs_volt_table_1GHZ[][3] = {
         {L3, DVSARM2, DVSINT1}, // 800mhz
         {L4, DVSARM3, DVSINT1}, // 600mhz
         {L5, DVSARM3, DVSINT1}, // 400mhz
-        {L6, DVSARM4, DVSINT2}, // 200mhz
+        {L6, DVSARM4, DVSINT1}, // 200mhz
         {L7, DVSARM4, DVSINT2}, // 100mhz
 };
 
