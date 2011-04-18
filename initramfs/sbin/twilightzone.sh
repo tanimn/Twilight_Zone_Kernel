@@ -18,6 +18,10 @@ sync
 echo "1000000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 echo "1000000" > /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq
 
+# Modify read_ahead_kb as per brainmaster
+
+echo "2048" > /sys/devices/virtual/bdi/179:0/read_ahead_kb
+
 # Enable init.d support
 
 if [ -d /system/etc/init.d ]
