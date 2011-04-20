@@ -19,18 +19,48 @@ on init
     # etinum.recovery create /bin for busybox
 	mkdir /bin 0771 system system
 
+    symlink /res/etc /etc
+
+#samsung dpram modules
+ mknod 0666 /dev/dpram0 c 255 1
+ mknod 0666 /dev/dpram1 c 255 2
+ mknod 0666 /dev/dpramerr c 255 0
+ mknod 0666 /dev/ttyCDMA0 c 240 1
+
+# ppp modules
+ mknod 0660 /dev/ppp c 108 0	
+# Insert all modules here
+    mkdir /lib/modules
     insmod /lib/modules/fsr.ko
     insmod /lib/modules/fsr_stl.ko
     insmod /lib/modules/rfs_glue.ko
     insmod /lib/modules/rfs_fat.ko
-
 # parameter block
+    mkdir /mnt 0755 root root
     mkdir /mnt/.lfs 0755 root root
     insmod /lib/modules/j4fs.ko
-    mount j4fs /dev/block/stl6 /mnt/.lfs
-	insmod /lib/modules/dpram_recovery.ko
 
-	insmod /lib/modules/param.ko 
+	#added by khoonk for parameter reading on 20100321
+	mount j4fs /dev/block/stl6 /mnt/.lfs
+	#added by khoonk for parameter reading on 20100321
+	insmod /lib/modules/param.ko
+	insmod /lib/modules/dpram.ko
+	insmod /lib/modules/multipdp.ko
+
+
+    insmod /lib/modules/wimax_gpio.ko
+    insmod /lib/modules/cmc7xx_sdio.ko
+
+    insmod /modules/pvrsrvkm.ko
+    insmod /modules/s3c_lcd.ko
+    insmod /modules/s3c_bc.ko
+    #insmod /modules/bc_example.ko
+
+    # load FM Radio module
+
+    #insmod /lib/modules/Si4709_driver.ko
+    insmod /lib/modules/vibrator.ko
+    insmod /lib/modules/melfas_touchkey.ko
 
 	mkdir /sdcard 0000 system system
     mkdir /data 0771 system system
@@ -38,9 +68,8 @@ on init
 
 
     #Thomas Ryu, Cache 
-#	mount ext4 /dev/block/stl11 /cache nosuid nodev check=no noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
-	mount ext4 /dev/block/stl11 /cache nosuid nodev check=no noatime nodiratime errors=continue nobh noauto_da_alloc
-    mount rfs /dev/block/stl11 /cache nosuid nodev check=no
+	mount ext4 /dev/block/stl11 /cache nosuid nodev noatime nodiratime check=n errors=continue nobh discard data=writeback barrier=0 noauto_da_alloc
+	mount rfs /dev/block/stl11 /cache nosuid nodev check=no
     chown system cache /cache
     chmod 0770 /cache
 
@@ -58,14 +87,14 @@ on init
     #chmod 0771 /data
 
 #	mount ext4 /dev/block/stl10 /data nosuid nodev check=no noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
-	mount ext4 /dev/block/stl10 /data nosuid nodev check=no noatime nodiratime errors=continue nobh noauto_da_alloc
-    mount rfs /dev/block/stl10 /data nosuid nodev check=no
+#	mount ext4 /dev/block/stl10 /data nosuid nodev check=no noatime nodiratime errors=continue nobh noauto_da_alloc
+#   mount rfs /dev/block/stl10 /data nosuid nodev check=no
     chown system system /data
     chmod 0771 /data
 
 #	mount ext4 /dev/block/stl9 /system noatime nodiratime check=no errors=continue nobh data=writeback barrier=0 noauto_da_alloc
-	mount ext4 /dev/block/stl9 /system noatime nodiratime check=no errors=continue nobh noauto_da_alloc
-  	mount rfs /dev/block/stl9 /system check=no
+#	mount ext4 /dev/block/stl9 /system noatime nodiratime check=no errors=continue nobh noauto_da_alloc
+#  	mount rfs /dev/block/stl9 /system check=no
 	
     #mkdir /dbdata
 	#mount rfs /dev/block/stl10 /dbdata
@@ -86,19 +115,12 @@ on boot
 #service console /system/bin/sh
 #    console
 
-
-# adbd is controlled by the persist.service.adb.enable system property
-service adbd /sbin/adbd
-	disabled
-
 on property:persist.service.adb.enable=1
     start adbd
 
 on property:persist.service.adb.enable=0
     stop adbd
 
-service recovery /system/bin/recovery
-	oneshot
+service recovery /res/sbin/recovery_wrapper
 
-
-#service adbd /sbin/adbd recovery
+service adbd /sbin/adbd recovery

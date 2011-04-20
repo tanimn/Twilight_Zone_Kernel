@@ -151,6 +151,8 @@ enum machine_type {
 #endif
 #endif
 #endif
+#else
+#define SEGMENT_SIZE	PAGE_SIZE
 #endif
 
 #define _N_SEGMENT_ROUND(x) ALIGN(x, SEGMENT_SIZE)

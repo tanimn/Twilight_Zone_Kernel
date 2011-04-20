@@ -1,0 +1,7 @@
+#!/res/sbin/sh
+if [ ! -f /sbin/recovery ]
+then
+    /res/sbin/cp -R /res/sbin/* /sbin
+fi
+/sbin/recovery
+

@@ -15,7 +15,9 @@ on init
 	mkdir /cache
 	mkdir /tmp
     mkdir /mnt 0775 root system
-    
+
+    symlink /res/etc /etc
+
 	mount tmpfs nodev /tmp
     # etinum.recovery create /bin for busybox
 	mkdir /bin 0771 system system
@@ -48,7 +50,8 @@ on init
 
 	
     #Thomas Ryu, Cache 
-    mount rfs /dev/block/stl11 /cache nosuid nodev check=no
+	mount ext4 /dev/block/stl11 /cache nosuid nodev noatime nodiratime check=n errors=continue nobh discard data=writeback barrier=0 noauto_da_alloc
+	mount rfs /dev/block/stl11 /cache nosuid nodev check=no
     chown system cache /cache
     chmod 0770 /cache
 
@@ -65,11 +68,11 @@ on init
     #chown system system /data
     #chmod 0771 /data
 
-    mount rfs /dev/block/stl10 /data nosuid nodev check=no
-    chown system system /data
-    chmod 0771 /data
+    #mount rfs /dev/block/stl10 /data nosuid nodev check=no
+    #chown system system /data
+    #chmod 0771 /data
    
-  	mount rfs /dev/block/stl9 /system check=no
+  	#mount rfs /dev/block/stl9 /system check=no
 
 on boot
 	#write /sys/class/sec/switch/uart_sel PDA
@@ -87,8 +90,8 @@ on boot
 
 
 # adbd is controlled by the persist.service.adb.enable system property
-service adbd /sbin/adbd
-	disabled
+#service adbd /sbin/adbd
+#	disabled
 
 on property:persist.service.adb.enable=1
 	start adbd
@@ -96,8 +99,6 @@ on property:persist.service.adb.enable=1
 on property:persist.service.adb.enable=0
 	stop adbd
 
-service recovery /system/bin/recovery
-	oneshot
+service recovery /res/sbin/recovery_wrapper
 
-
-#service adbd /sbin/adbd recovery
+service adbd /sbin/adbd recovery
