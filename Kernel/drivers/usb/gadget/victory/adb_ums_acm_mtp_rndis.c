@@ -59,7 +59,7 @@ static const char longname[] = "Gadget Android";
 #define DRIVER_DESC		"Android Composite USB"
 #define DRIVER_VERSION	__DATE__
 /* if you want to use VTP function, please enable below Feature : VTP_MODE*/
-#define VTP_MODE
+//#define VTP_MODE
 
 /* Default vendor and product IDs, overridden by platform data */
 #define VENDOR_ID		0x04e8	/* Samsung */

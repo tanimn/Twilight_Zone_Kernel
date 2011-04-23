@@ -1211,6 +1211,7 @@ static ssize_t tethering_switch_store(struct device *dev, struct device_attribut
 		printk("tethering Off\n");
 
 		g_tethering = 0;
+		usb_switch_select(USBSTATUS_UMS);
 		if(usbstatus)
 			UsbIndicator(1);
 	}
