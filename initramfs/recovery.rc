@@ -119,8 +119,11 @@ on property:persist.service.adb.enable=1
     start adbd
 
 on property:persist.service.adb.enable=0
-    stop adbd
+   stop adbd
 
 service recovery /res/sbin/recovery_wrapper
 
+setprop persist.service.adb.enable "1"
+
 service adbd /sbin/adbd recovery
+

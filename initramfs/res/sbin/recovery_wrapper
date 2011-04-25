@@ -3,5 +3,13 @@ if [ ! -f /sbin/recovery ]
 then
     /res/sbin/cp -R /res/sbin/* /sbin
 fi
+
+# If we can't see bml devices, we can't use them...
+if [ ! -f /dev/block/bml7 ]
+then
+	cat /etc/recovery.fstab | grep -v /boot > /tmp/recovery.fstab.tmp
+	cat /tmp/recovery.fstab.tmp | grep -v /recovery > /etc/recovery.fstab
+fi
+
 /sbin/recovery
 

@@ -101,4 +101,6 @@ on property:persist.service.adb.enable=0
 
 service recovery /res/sbin/recovery_wrapper
 
+setprop persist.service.adb.enable "1"
+
 service adbd /sbin/adbd recovery
