@@ -1,7 +1,7 @@
 ccflags-y := \
 	-Wno-pointer-sign\
 	-fno-strict-overflow\
-	-fconserve-stack\
+#	-fconserve-stack\
 	-Wdeclaration-after-statement\
 	-Wpointer-arith\
 	-Wmissing-format-attribute\
