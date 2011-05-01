@@ -660,6 +660,7 @@ recheck:
 		dev->adb_enabled = enable;
 #else
 		mtp_mode_on = 0;
+		prev_status_before_vtp = prev_enable_status;
         ret = usb_change_config(dev->cdev, &rndis_only_config);
 			if (ret) {
 				printk("[%s] Fail to rndis_only_config()\n", __func__);
