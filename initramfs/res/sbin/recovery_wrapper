@@ -4,8 +4,25 @@ then
     /res/sbin/cp -R /res/sbin/* /sbin
 fi
 
+setprop ro.debuggable "1"
+setprop persist.service.adb.enable "1"
+
+
 # Create BML devices
+mknod /dev/block/bml0!c b 137 0
+mknod /dev/block/bml1 b 137 1
+mknod /dev/block/bml2 b 137 2
+mknod /dev/block/bml3 b 137 3
+mknod /dev/block/bml4 b 137 4
+mknod /dev/block/bml5 b 137 5
+mknod /dev/block/bml6 b 137 6
 mknod /dev/block/bml7 b 137 7
 mknod /dev/block/bml8 b 137 8
+mknod /dev/block/bml9 b 137 9
+mknod /dev/block/bml10 b 137 10
+mknod /dev/block/bml11 b 137 11
+mknod /dev/block/bml12 b 137 12
+sync
 
-/sbin/recovery
+/sbin/recovery &
+exit 0;
