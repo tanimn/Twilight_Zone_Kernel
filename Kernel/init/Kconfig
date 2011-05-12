@@ -314,7 +314,7 @@ menu "RCU Subsystem"
 
 choice
 	prompt "RCU Implementation"
-	default TREE_RCU
+	default TINY_RCU
 
 config TREE_RCU
 	bool "Tree-based hierarchical RCU"

@@ -79,10 +79,14 @@ obj-$(CONFIG_DETECT_HUNG_TASK) += hung_task.o
 obj-$(CONFIG_GENERIC_HARDIRQS) += irq/
 obj-$(CONFIG_SECCOMP) += seccomp.o
 obj-$(CONFIG_RCU_TORTURE_TEST) += rcutorture.o
-# obj-$(CONFIG_TREE_RCU) += rcutree.o
-# obj-$(CONFIG_TREE_PREEMPT_RCU) += rcutree.o
-# obj-$(CONFIG_TREE_RCU_TRACE) += rcutree_trace.o
+ifdef CONFIG_TREE_RCU
+obj-$(CONFIG_TREE_RCU) += rcutree.o
+obj-$(CONFIG_TREE_PREEMPT_RCU) += rcutree.o
+obj-$(CONFIG_TREE_RCU_TRACE) += rcutree_trace.o
+endif
+ifdef CONFIG_TINY_RCU
 obj-$(CONFIG_TINY_RCU) += rcutiny.o
+endif
 obj-$(CONFIG_RELAY) += relay.o
 obj-$(CONFIG_SYSCTL) += utsname_sysctl.o
 obj-$(CONFIG_TASK_DELAY_ACCT) += delayacct.o
