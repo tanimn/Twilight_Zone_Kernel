@@ -72,7 +72,10 @@ on init
     #chown system system /data
     #chmod 0771 /data
    
-  	#mount rfs /dev/block/stl9 /system check=no
+	mount ext4 /dev/block/stl9 /system noatime nodiratime data=writeback check=no errors=continue nobh noauto_da_alloc
+	mount rfs /dev/block/stl9 /system check=no
+
+    insmod /lib/modules/wimax_gpio.ko
 
 on boot
 	#write /sys/class/sec/switch/uart_sel PDA
@@ -100,8 +103,6 @@ on property:persist.service.adb.enable=0
 	stop adbd
 
 service recovery /res/sbin/recovery_wrapper
-
-setprop ro.debuggable "1"
-setprop persist.service.adb.enable "1"
+	oneshot
 
 service adbd /sbin/adbd recovery
