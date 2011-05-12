@@ -22,6 +22,10 @@ echo "1000000" > /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq
 
 echo "2048" > /sys/devices/virtual/bdi/179:0/read_ahead_kb
 
+# Set the perfect timer for the hardware keyboard. Thanks theimpaler747.
+
+echo "5" > /sys/devices/platform/s3c-keypad/timer_delay
+
 # Enable init.d support
 
 if [ -d /system/etc/init.d ]
