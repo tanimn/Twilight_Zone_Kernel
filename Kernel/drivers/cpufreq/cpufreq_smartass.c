@@ -34,6 +34,8 @@
 #include <asm/cputime.h>
 #include <linux/earlysuspend.h>
 
+#define CONFIG_CPU_HUMMINGBIRD_MIN_FREQ 100000
+#define CONFIG_CPU_HUMMINGBIRD_MAX_FREQ 1300000
 static void (*pm_idle_old)(void);
 static atomic_t active_count = ATOMIC_INIT(0);
 
