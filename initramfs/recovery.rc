@@ -24,14 +24,6 @@ loglevel 8
 
     symlink /res/etc /etc
 
-#samsung dpram modules
- mknod 0666 /dev/dpram0 c 255 1
- mknod 0666 /dev/dpram1 c 255 2
- mknod 0666 /dev/dpramerr c 255 0
- mknod 0666 /dev/ttyCDMA0 c 240 1
-
-# ppp modules
- mknod 0660 /dev/ppp c 108 0	
 # Insert all modules here
     mkdir /lib/modules
     insmod /lib/modules/fsr.ko
@@ -48,21 +40,6 @@ loglevel 8
 	#added by khoonk for parameter reading on 20100321
 	insmod /lib/modules/dpram_recovery.ko
 	insmod /lib/modules/param.ko
-	insmod /lib/modules/dpram.ko
-	insmod /lib/modules/multipdp.ko
-
-
-
-    insmod /modules/pvrsrvkm.ko
-    insmod /modules/s3c_lcd.ko
-    insmod /modules/s3c_bc.ko
-    #insmod /modules/bc_example.ko
-
-    # load FM Radio module
-
-    #insmod /lib/modules/Si4709_driver.ko
-    insmod /lib/modules/vibrator.ko
-    insmod /lib/modules/melfas_touchkey.ko
 
 	mkdir /sdcard 0000 system system
     mkdir /data 0771 system system
@@ -70,7 +47,7 @@ loglevel 8
 
 
     #Thomas Ryu, Cache 
-	mount ext4 /dev/block/stl11 /cache nosuid nodev noatime nodiratime check=n errors=continue nobh discard data=writeback barrier=0 noauto_da_alloc
+	mount ext4 /dev/block/stl11 /cache nosuid nodev noatime nodiratime check=no errors=continue nobh discard data=writeback barrier=0 noauto_da_alloc
 	mount rfs /dev/block/stl11 /cache nosuid nodev check=no
     chown system cache /cache
     chmod 0770 /cache
@@ -88,18 +65,14 @@ loglevel 8
     #chown system system /data
     #chmod 0771 /data
 
-#	mount ext4 /dev/block/stl10 /data nosuid nodev check=no noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
-#	mount ext4 /dev/block/stl10 /data nosuid nodev check=no noatime nodiratime errors=continue nobh noauto_da_alloc
-#   mount rfs /dev/block/stl10 /data nosuid nodev check=no
+	mount ext4 /dev/block/stl10 /data nosuid nodev check=no noatime nodiratime errors=continue nobh noauto_da_alloc
+   mount rfs /dev/block/stl10 /data nosuid nodev check=no
     chown system system /data
     chmod 0771 /data
 
 	mount ext4 /dev/block/stl9 /system noatime nodiratime data=writeback check=no errors=continue nobh noauto_da_alloc
   	mount rfs /dev/block/stl9 /system check=no
 
-    insmod /lib/modules/wimax_gpio.ko
-    insmod /lib/modules/cmc7xx_sdio.ko
-	
     #mkdir /dbdata
 	#mount rfs /dev/block/stl10 /dbdata
     #chown system system /dbdata
@@ -126,6 +99,7 @@ on property:persist.service.adb.enable=0
    stop adbd
 
 service recovery /res/sbin/recovery_wrapper
+	user root
 	oneshot
 
 service adbd /sbin/adbd recovery
